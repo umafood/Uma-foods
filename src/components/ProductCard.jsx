@@ -13,7 +13,9 @@ const ProductCard = ({ product, index = 0 }) => {
   const { toggleWishlist, isInWishlist } = useWishlist();
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-const BASE_URL = import.meta.env.VITE_BASE_URL
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const isOutOfStock = product.stock === 0;
+
   const getTagStyle = (tag) => {
     const styles = {
       bestseller: 'bg-saffron-500 text-white',
@@ -74,13 +76,15 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
     }
   };
 
+  const cardClasses = `surface-card relative flex h-full flex-col overflow-hidden transition-all duration-500 ${isOutOfStock ? "bg-gray-100 text-gray-500 shadow-none grayscale" : "group hover:shadow-[0_10px_35px_-8px_rgba(212,160,23,0.16)]"}`;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="surface-card group relative flex h-full flex-col overflow-hidden transition-all duration-500 hover:shadow-[0_10px_35px_-8px_rgba(212,160,23,0.16)]"
+      className={cardClasses}
     >
       <div className="absolute left-3 top-3 z-10 flex flex-wrap items-center gap-1.5">
         {product.tags?.slice(0, 1).map((tag, i) => (
@@ -96,42 +100,63 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
       </div>
 
       {/* Wishlist & Quick View */}
-      <div className="absolute top-3 right-3 z-10 flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-        <button
-          onClick={() => toggleWishlist(product)}
-          className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer transition-all duration-300 shadow-md ${isInWishlist(product.id)
-            ? 'bg-red-500 text-white'
-            : 'bg-white/90 backdrop-blur text-neutral-400 hover:text-red-500 hover:bg-white'
-            }`}
-        >
-          <FiHeart size={14} fill={isInWishlist(product.id) ? 'currentColor' : 'none'} />
-        </button>
-        <Link
-          to={`/product/${product.slug}`}
-          className="w-8 h-8 flex items-center justify-center bg-white/90 backdrop-blur rounded-full text-neutral-400 hover:text-saffron-600 hover:bg-white transition-colors shadow-md"
-        >
-          <FiEye size={14} />
-        </Link>
-      </div>
+      {!isOutOfStock && (
+        <div className="absolute top-3 right-3 z-10 flex flex-col gap-1.5 opacity-100 sm:opacity-0 translate-x-0 sm:translate-x-2 sm:group-hover:opacity-100 sm:group-hover:translate-x-0 transition-all duration-300">
+          <button
+            onClick={() => toggleWishlist(product)}
+            className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 shadow-md ${isInWishlist(product.id)
+              ? 'bg-red-500 text-white'
+              : 'bg-white/90 backdrop-blur text-neutral-400 hover:text-red-500 hover:bg-white'
+              }`}
+          >
+            <FiHeart size={14} fill={isInWishlist(product.id) ? 'currentColor' : 'none'} />
+          </button>
+          <Link
+            to={`/product/${product.slug}`}
+            className="w-8 h-8 flex items-center justify-center bg-white/90 backdrop-blur rounded-full text-neutral-400 hover:text-saffron-600 hover:bg-white transition-colors shadow-md"
+          >
+            <FiEye size={14} />
+          </Link>
+        </div>
+      )}
 
       {/* Image */}
-      <Link
-        to={`/product/${product.slug}`}
-        className="relative block aspect-square w-full cursor-pointer overflow-hidden bg-linear-to-b from-neutral-50 to-saffron-50/30"
-      >
-        <img
-          src={`${BASE_URL}/${product.image}`}
-          alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-        />
+      {isOutOfStock ? (
+        <div
+          className="relative block aspect-square w-full cursor-not-allowed overflow-hidden bg-linear-to-b from-neutral-50 to-saffron-50/30"
+          aria-disabled="true"
+        >
+          <img
+            src={`${BASE_URL}/${product.image}`}
+            alt={product.name}
+            className="w-full h-full object-cover transition-transform duration-700"
+          />
+{isOutOfStock && (
+  <div className="absolute inset-0 bg-neutral-900/10 backdrop-blur-[1px] flex items-center justify-center z-10">
+    <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-red-500 bg-neutral-900/90 text-xs font-bold uppercase tracking-[0.2em] px-4 py-2.5 rounded-xl shadow-xl max-w-max mx-auto border border-neutral-800 backdrop-blur-md">
+      Out of Stock
+    </span>
+  </div>
+)}
+        </div>
+      ) : (
+        <Link
+          to={`/product/${product.slug}`}
+          className="relative block aspect-square w-full cursor-pointer overflow-hidden bg-linear-to-b from-neutral-50 to-saffron-50/30"
+        >
+          <img
+            src={`${BASE_URL}/${product.image}`}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          />
 
-        {product.stock === 0 && (
-          <span className="absolute top-2 left-40 text-white text-xs px-3 py-1 mt-0.5 ml-1 rounded-lg bg-red-500">
-            Out of Stock
-          </span>
-        )}
-
-      </Link>
+          {product.stock === 0 && (
+            <span className="absolute top-2 left-40 text-white text-xs px-3 py-1 mt-0.5 ml-1 rounded-lg bg-red-500">
+              Out of Stock
+            </span>
+          )}
+        </Link>
+      )}
 
       {/* Content */}
       <div className="flex min-w-0 grow flex-col p-4 sm:p-5">
@@ -166,12 +191,12 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
           </div>
 
           {/* Quantity Controls */}
-          <div className="flex items-center gap-2">
+          <div className={`flex items-center gap-2 ${isOutOfStock ? 'opacity-60' : ''}`}>
             <span className="text-xs font-medium text-neutral-600">Qty:</span>
             <div className="flex items-center border border-neutral-200 rounded-lg overflow-hidden">
               <button
                 onClick={decrementQuantity}
-                disabled={quantity <= 1}
+                disabled={quantity <= 1 || isOutOfStock}
                 className="w-8 h-8 flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <FiMinus size={12} />
@@ -182,11 +207,12 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
                 onChange={(e) => handleQuantityChange(e.target.value)}
                 min="1"
                 max={Math.min(product.stock || 99, 99)}
-                className="w-12 h-8 text-center border-0 focus:outline-none focus:ring-0 focus:border-0 text-sm font-medium"
+                disabled={isOutOfStock}
+                className="w-12 h-8 text-center border-0 focus:outline-none focus:ring-0 focus:border-0 text-sm font-medium disabled:bg-neutral-100 disabled:cursor-not-allowed"
               />
               <button
                 onClick={incrementQuantity}
-                disabled={quantity >= Math.min(product.stock || 99, 99)}
+                disabled={quantity >= Math.min(product.stock || 99, 99) || isOutOfStock}
                 className="w-8 h-8 flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <FiPlus size={12} />
@@ -195,11 +221,12 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
           </div>
 
           <button
-            onClick={handleAddToCart}
-            disabled={product.stock === 0 || isAddingToCart}
-            className={`w-full h-9 rounded-lg flex items-center justify-center cursor-pointer gap-2 transition-all duration-300 transform active:scale-95 shadow-sm font-medium text-sm ${
-              product.stock === 0
-                ? "bg-gray-300 cursor-not-allowed text-gray-500"
+            type="button"
+            onClick={isOutOfStock ? undefined : handleAddToCart}
+            disabled={isOutOfStock || isAddingToCart}
+            className={`w-full h-9 rounded-lg flex items-center justify-center ${isOutOfStock ? 'cursor-not-allowed' : 'cursor-pointer'} gap-2 transition-all duration-300 transform active:scale-95 shadow-sm font-medium text-sm ${
+              isOutOfStock
+                ? "bg-gray-300 text-gray-500"
                 : isAddingToCart
                 ? "bg-saffron-400 cursor-not-allowed text-white"
                 : "bg-neutral-900 text-white hover:bg-saffron-600 hover:scale-105"

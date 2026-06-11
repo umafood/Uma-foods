@@ -1,16 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FiInstagram, FiFacebook, FiTwitter, FiYoutube, FiArrowRight, FiMapPin, FiPhone, FiMail } from 'react-icons/fi';
-import Container from './Container';
+import React from "react";
+import { Link } from "react-router-dom";
+import {
+  FiInstagram,
+  FiFacebook,
+  FiTwitter,
+  FiYoutube,
+  FiArrowRight,
+  FiMapPin,
+  FiPhone,
+  FiMail,
+} from "react-icons/fi";
+import Container from "./Container";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const shopLinks = ['All Products', 'Best Sellers', 'Combo Offers', 'Bulk Orders'];
+  const shopLinks = [
+    "All Products",
+    "Best Sellers",
+    "Combo Offers",
+    "Bulk Orders",
+  ];
   const companyLinks = [
-    { name: 'About Us', path: '/about' },
-    { name: 'Our Process', path: '/about' },
-    { name: 'Contact Us', path: '/contact' },
-    { name: 'Shipping Policy', path: '/shop' },
+    { name: "About Us", path: "/about" },
+    { name: "Our Process", path: "/about" },
+    { name: "Contact Us", path: "/contact" },
+    { name: "Shipping Policy", path: "/shop" },
   ];
 
   return (
@@ -24,7 +38,11 @@ const Footer = () => {
             <div className="lg:col-span-5 lg:pr-6">
               <Link to="/" className="mb-4 inline-flex items-center gap-2.5">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white p-1">
-                  <img src="/images/logo.png" alt="Uma Papad" className="h-full w-full object-contain" />
+                  <img
+                    src="/images/logo.png"
+                    alt="Uma Papad"
+                    className="h-full w-full object-contain"
+                  />
                 </div>
                 <span className="font-display text-[1.6rem] font-bold leading-[1.02] text-white sm:text-[1.8rem]">
                   <span className="text-gradient-gold">Uma</span> Papad
@@ -32,15 +50,16 @@ const Footer = () => {
               </Link>
 
               <p className="font-body text-sm leading-relaxed text-neutral-300">
-                Authentic handcrafted papad made with traditional recipes, premium lentils, and clean ingredients for every family meal.
+                Authentic handcrafted papad made with traditional recipes,
+                premium lentils, and clean ingredients for every family meal.
               </p>
 
               <div className="mt-4 flex flex-wrap items-center gap-2">
                 {[
-                  { icon: FiInstagram, label: 'Instagram' },
-                  { icon: FiFacebook, label: 'Facebook' },
-                  { icon: FiTwitter, label: 'Twitter' },
-                  { icon: FiYoutube, label: 'YouTube' },
+                  { icon: FiInstagram, label: "Instagram" },
+                  { icon: FiFacebook, label: "Facebook" },
+                  { icon: FiTwitter, label: "Twitter" },
+                  { icon: FiYoutube, label: "YouTube" },
                 ].map(({ icon: Icon, label }) => (
                   <a
                     key={label}
@@ -57,12 +76,20 @@ const Footer = () => {
             {/* Links columns */}
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-7 lg:grid-cols-3 lg:gap-6">
               <div>
-                <h4 className="mb-3 font-heading text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-saffron-100">Shop</h4>
+                <h4 className="mb-3 font-heading text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-saffron-100">
+                  Shop
+                </h4>
                 <ul className="space-y-2">
                   {shopLinks.map((label) => (
                     <li key={label}>
-                      <Link to="/shop" className="group inline-flex items-center gap-1.5 font-body text-sm text-neutral-300 transition-colors hover:text-saffron-200">
-                        <FiArrowRight size={10} className="text-saffron-400 transition-transform group-hover:translate-x-0.5" />
+                      <Link
+                        to="/shop"
+                        className="group inline-flex items-center gap-1.5 font-body text-sm text-neutral-300 transition-colors hover:text-saffron-200"
+                      >
+                        <FiArrowRight
+                          size={10}
+                          className="text-saffron-400 transition-transform group-hover:translate-x-0.5"
+                        />
                         {label}
                       </Link>
                     </li>
@@ -71,12 +98,20 @@ const Footer = () => {
               </div>
 
               <div>
-                <h4 className="mb-3 font-heading text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-saffron-100">Company</h4>
+                <h4 className="mb-3 font-heading text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-saffron-100">
+                  Company
+                </h4>
                 <ul className="space-y-2">
                   {companyLinks.map((link) => (
                     <li key={link.name}>
-                      <Link to={link.path} className="group inline-flex items-center gap-1.5 font-body text-sm text-neutral-300 transition-colors hover:text-saffron-200">
-                        <FiArrowRight size={10} className="text-saffron-400 transition-transform group-hover:translate-x-0.5" />
+                      <Link
+                        to={link.path}
+                        className="group inline-flex items-center gap-1.5 font-body text-sm text-neutral-300 transition-colors hover:text-saffron-200"
+                      >
+                        <FiArrowRight
+                          size={10}
+                          className="text-saffron-400 transition-transform group-hover:translate-x-0.5"
+                        />
                         {link.name}
                       </Link>
                     </li>
@@ -85,22 +120,39 @@ const Footer = () => {
               </div>
 
               <div>
-                <h4 className="mb-3 font-heading text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-saffron-100">Get In Touch</h4>
+                <h4 className="mb-3 font-heading text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-saffron-100">
+                  Get In Touch
+                </h4>
                 <ul className="space-y-2.5">
                   <li className="flex items-start gap-2">
-                    <FiMapPin className="mt-0.5 shrink-0 text-saffron-500" size={13} />
-                    <span className="font-body text-sm leading-relaxed text-neutral-300">
-                      Uma Technofab, Industrial Area,<br />Gujarat, India
-                    </span>
+                    <FiMapPin
+                      className="mt-0.5 shrink-0 text-saffron-500"
+                      size={13}
+                    />
+                    <a
+                      href="https://maps.app.goo.gl/B7qUuC6HkLE1gad86?g_st=iw"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-body text-sm leading-relaxed text-neutral-300 hover:text-saffron-400 hover:underline transition-colors duration-200"
+                    >
+                      Survey No.2235, Opp. Parshwa Industrial Park, Vill:
+                      Rajpur, Ta: kadi, <br />
+                      Gujarat -382715
+                    </a>
                   </li>
                   <li className="flex items-center gap-2">
                     <FiPhone className="shrink-0 text-saffron-500" size={13} />
-                    <span className="font-body text-sm text-neutral-300">+91 98765 43210</span>
+                    <span className="font-body text-sm text-neutral-300">
+                      +91 8735933517
+                    </span>
                   </li>
                   <li className="flex items-center gap-2">
                     <FiMail className="shrink-0 text-saffron-500" size={13} />
-                    <a href="mailto:hello@umapapad.com" className="font-body text-sm text-neutral-300 transition-colors hover:text-saffron-200">
-                      hello@umapapad.com
+                    <a
+                      href="mailto:hello@umapapad.com"
+                      className="font-body text-sm text-neutral-300 transition-colors hover:text-saffron-200"
+                    >
+                      umafoods123@gmail.com
                     </a>
                   </li>
                 </ul>
@@ -109,10 +161,22 @@ const Footer = () => {
           </div>
 
           <div className="mt-6 flex flex-col justify-between gap-2.5 border-t border-white/8 pt-4 text-center md:flex-row md:items-center md:text-left">
-            <p className="font-body text-xs text-neutral-400">&copy; {currentYear} Uma Papad. All rights reserved. A product of Uma Technofab.</p>
+            <p className="font-body text-xs text-neutral-400">
+              &copy; {currentYear} Uma Papad. All rights reserved. A product of
+              Uma Technofab.
+            </p>
             <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 md:justify-end">
-              {['Privacy Policy', 'Terms of Service', 'Shipping Policy', 'Refund Policy'].map((label) => (
-                <a key={label} href="#" className="font-body text-xs text-neutral-400 transition-colors hover:text-saffron-200">
+              {[
+                "Privacy Policy",
+                "Terms of Service",
+                "Shipping Policy",
+                "Refund Policy",
+              ].map((label) => (
+                <a
+                  key={label}
+                  href="#"
+                  className="font-body text-xs text-neutral-400 transition-colors hover:text-saffron-200"
+                >
                   {label}
                 </a>
               ))}

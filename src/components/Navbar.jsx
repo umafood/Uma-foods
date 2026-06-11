@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiShoppingBag, FiMenu, FiX, FiHeart, FiUser } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
@@ -10,10 +10,11 @@ import { useAuth } from "../context/AuthContext";
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isAuthenticated, loading, logout } = useAuth();
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef(null);
+  const { user, isAuthenticated, loading, logout } = useAuth();
   const navigate = useNavigate();
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const { cartCount, setIsCartOpen } = useCart();
+  const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
   const location = useLocation();
   const isHome = location.pathname === "/";
@@ -38,13 +39,30 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async () => {
+    setIsProfileMenuOpen(false);
     await logout();
     navigate("/login");
   };
 
   useEffect(() => {
     setIsMenuOpen(false);
+    setIsProfileMenuOpen(false);
   }, [location]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isProfileMenuOpen &&
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target)
+      ) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("mousedown", handleClickOutside);
+    return () => window.removeEventListener("mousedown", handleClickOutside);
+  }, [isProfileMenuOpen]);
 
   const baseLinks = [
     { name: "Home", path: "/" },
@@ -52,12 +70,15 @@ const Navbar = () => {
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
-  const authLinks = isAuthenticated
-    ? [{ name: "OrderHistory", path: "/orders" }]
-    : // { name: 'Profile', path: '/profile' }
-      [];
 
-  const navLinks = [...baseLinks, ...authLinks];
+  const accountLinks = [
+    { name: "My Profile", path: "/profile" },
+    { name: "Order History", path: "/orders" },
+    { name: "Update Address", path: "/profile?tab=address" },
+    { name: "Update Password", path: "/profile?tab=security" },
+  ];
+
+  const navLinks = [...baseLinks];
 
   const handleAuthIconClick = () => {
     navigate(isAuthenticated ? "/profile" : "/login");
@@ -168,12 +189,46 @@ const Navbar = () => {
                 )}
 
                 {isAuthenticated && (
-                  <button
-                    onClick={handleLogout}
-                    className={`px-3 py-1 cursor-pointer rounded-md text-sm font-medium transition ${navText} ${navHover} ${iconHoverBg}`}
-                  >
-                    Logout
-                  </button>
+                  <div ref={profileMenuRef} className="relative">
+                    <button
+                      onClick={() => setIsProfileMenuOpen((open) => !open)}
+                      className={`rounded-full cursor-pointer p-2.5 transition-colors ${navText} ${navHover} ${iconHoverBg}`}
+                      aria-label={user?.username ? `Open profile menu for ${user.username}` : "Open profile menu"}
+                    >
+                      <FiUser size={20} />
+                    </button>
+
+                    <AnimatePresence>
+                      {isProfileMenuOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.18, ease: "easeOut" }}
+                          className="absolute right-0 z-50 mt-3 w-56 overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-xl"
+                        >
+                          <div className="flex flex-col py-2">
+                            {accountLinks.map((link) => (
+                              <Link
+                                key={link.name}
+                                to={link.path}
+                                className="block px-4 py-3 text-sm font-medium text-neutral-700 transition hover:bg-saffron-50 hover:text-saffron-700"
+                              >
+                                {link.name}
+                              </Link>
+                            ))}
+                            <button
+                              type="button"
+                              onClick={handleLogout}
+                              className="w-full px-4 py-3 text-left text-sm font-medium text-neutral-700 transition hover:bg-saffron-50 hover:text-saffron-700"
+                            >
+                              Logout
+                            </button>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 )}
 
                 {/* Mobile menu button */}
@@ -211,6 +266,36 @@ const Navbar = () => {
                       {link.name}
                     </Link>
                   ))}
+
+                  {isAuthenticated ? (
+                    <div className="rounded-3xl border border-neutral-200 bg-slate-50 p-3">
+                      <p className="mb-2 text-sm font-semibold text-neutral-700">Account</p>
+                      {accountLinks.map((link) => (
+                        <Link
+                          key={link.name}
+                          to={link.path}
+                          className="block rounded-xl px-4 py-2 text-sm font-medium text-neutral-700 transition hover:bg-white hover:text-saffron-600"
+                        >
+                          {link.name}
+                        </Link>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="mt-3 w-full rounded-xl bg-saffron-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-saffron-600"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleAuthIconClick}
+                      className="w-full rounded-xl bg-saffron-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-saffron-600"
+                    >
+                      Login / Register
+                    </button>
+                  )}
                 </Container>
               </motion.div>
             )}

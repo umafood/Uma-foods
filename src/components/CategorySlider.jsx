@@ -81,33 +81,39 @@ const CategorySlider = () => {
   }
 
   return (
-    <section id="categories" className="bg-[#FFFDF7] py-12">
+         <section id="categories" className="bg-[#FFFDF7] py-12 md:py-20 lg:py-24">
       <Container>
         {/* Heading */}
-        <div className="mb-12 text-center lg:mb-20">
-          <span className="section-kicker block text-saffron-600">
+        <div className="mb-8 text-center sm:mb-12 lg:mb-20">
+          <span className="section-kicker block text-xs font-semibold uppercase tracking-wider text-saffron-600 sm:text-sm">
             Our Categories
           </span>
 
-          <h2 className="section-title mt-4 text-neutral-900">
-            Explore Our
-            <span className="text-gradient"> Papad Range</span>
+          <h2 className="section-title mt-2 text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl lg:text-5xl">
+            Explore Our <span className="text-gradient">Papad Range</span>
           </h2>
 
-          <p className="type-copy mx-auto mt-5 max-w-2xl text-neutral-600">
+          <p className="type-copy mx-auto mt-3 max-w-2xl text-sm text-neutral-600 sm:text-base">
             Discover authentic flavours crafted using traditional recipes and
             premium ingredients.
           </p>
-
-          <p className="mt-8 animate-bounce text-sm font-bold uppercase tracking-[0.25em] text-neutral-500">
+ <p className="mt-8 animate-bounce text-sm font-bold uppercase tracking-[0.25em] text-neutral-500">
             ↓ Scroll Down Here ↓
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2">
-          {/* LEFT IMAGE */}
-          <div className="hidden lg:block">
-            <div className="sticky top-0 flex h-screen items-center justify-center">
+        {/* MAIN INTERACTIVE CONTAINER 
+          Mobile: Fixed 350px height box, side-by-side grid layout.
+          Desktop (lg): Removes fixed height restrictions, scales to natural scrolling heights.
+        */}
+        <div className="relative grid h-[350px] grid-cols-2 items-center gap-4 rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm sm:h-[400px] sm:p-6 lg:h-auto lg:grid-cols-2 lg:items-start lg:gap-12 lg:border-none lg:bg-transparent lg:p-0 lg:shadow-none">
+          
+          {/* LEFT IMAGE 
+              Mobile: Centered inside the fixed 350px box.
+              Desktop: Standard smooth screen-sticky behavior.
+          */}
+          <div className="flex h-full w-full items-center justify-center lg:sticky lg:top-0 lg:h-screen">
+            <div className="relative flex aspect-square w-full max-w-[120px] items-center justify-center sm:max-w-[180px] lg:max-w-[300px] xl:max-w-[360px]">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeCategory?.id || "default"}
@@ -133,48 +139,45 @@ const CategorySlider = () => {
                     rotate: 5,
                   }}
                   transition={{
-                    duration: 0.5,
+                    duration: 0.4,
                   }}
-                  className="
-                    w-[240px]
-                    md:w-[280px]
-                    lg:w-[300px]
-                    xl:w-[360px]
-                    object-contain
-                    drop-shadow-xl
-                  "
+                  className="h-full w-full object-contain drop-shadow-lg lg:drop-shadow-xl"
                 />
               </AnimatePresence>
             </div>
           </div>
 
-          {/* RIGHT CONTENT */}
-          <div>
+          {/* RIGHT SCROLLING CONTENT
+              Mobile: Becomes its own independently scrollable area (`overflow-y-scroll`). 
+              Desktop: Scrolls normally with the page wrapper.
+          */}
+          <div className="no-scrollbar h-full w-full overflow-y-scroll snap-y snap-mandatory lg:h-auto lg:overflow-visible">
             {categories.map((category, index) => (
               <section
                 key={category.id}
                 data-index={index}
                 ref={(el) => (sectionRefs.current[index] = el)}
-                className="min-h-[80vh] flex items-center justify-center"
+                // Mobile: Each text fits exactly into the 350px container window using snap alignment
+                className="flex h-full min-h-full snap-center items-center justify-start lg:min-h-[80vh]"
               >
-                <div className="w-full max-w-[700px] px-8">
+                <div className="w-full pr-2 text-left lg:pr-0">
                   <motion.h2
                     animate={{
                       opacity: activeCategory?.id === category.id ? 1 : 0.15,
                       scale: activeCategory?.id === category.id ? 1 : 0.9,
-                      y: activeCategory?.id === category.id ? 0 : 40,
+                      x: activeCategory?.id === category.id ? 0 : -10,
                     }}
                     transition={{
-                      duration: 0.5,
+                      duration: 0.4,
                       ease: "easeOut",
                     }}
                     className={`
-                      text-center
                       font-display
                       font-bold
                       leading-tight
-                      text-4xl
-                      md:text-5xl
+                      text-xl
+                      xs:text-2xl
+                      sm:text-3xl
                       lg:text-6xl
                       xl:text-7xl
                       transition-all
@@ -191,23 +194,7 @@ const CategorySlider = () => {
               </section>
             ))}
           </div>
-        </div>
 
-        {/* MOBILE VIEW */}
-        <div className="mt-8 space-y-10 lg:hidden">
-          {categories.map((category) => (
-            <div key={category.id} className="text-center">
-              <img
-                src={getCategoryImage(category.name)}
-                alt={category.name}
-                className="mx-auto h-32 w-32 object-contain"
-              />
-
-              <h3 className="mt-4 text-2xl font-bold text-neutral-900">
-                {category.name}
-              </h3>
-            </div>
-          ))}
         </div>
       </Container>
     </section>

@@ -28,10 +28,9 @@ const ContactPage = () => {
   const [loadingSubjects, setLoadingSubjects] = useState(true);
   const [mapZoom, setMapZoom] = useState(13);
 
-  const mapQuery = encodeURIComponent(
-    "Uma Technofab Industrial Area Gujarat India"
-  );
-  const mapSrc = `https://maps.google.com/maps?q=${mapQuery}&t=&z=${mapZoom}&ie=UTF8&iwloc=&output=embed`;
+  const factoryAddress =
+    "Uma Technofab, Survey No.2235, Opp. Parshwa Industrial Park, Vill: Rajpur, Ta: kadi, Gujarat -382715";
+  const mapSrc = `https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3663.558314874587!2d72.42739307532317!3d23.331778978958233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjPCsDE5JzU0LjQiTiA3MsKwMjUnNDcuOSJF!5e0!3m2!1sen!2sin!4v1781170257043!5m2!1sen!2sin?q=${encodeURIComponent(factoryAddress)}&z=${mapZoom}&output=embed`;
 
   const handleZoomIn = () => {
     setMapZoom((prev) => Math.min(prev + 1, 20));
@@ -52,11 +51,10 @@ const ContactPage = () => {
     const fetchSubjects = async () => {
       try {
         const data = await getContactSubjects();
-       
+
         setSubjects(data);
       } catch (error) {
         // console.error("Failed to fetch subjects:", error);
-
       } finally {
         setLoadingSubjects(false);
       }
@@ -86,17 +84,21 @@ const ContactPage = () => {
     {
       icon: FiMapPin,
       title: "Visit Us",
-      details: ["Uma Technofab", "Industrial Area, Gujarat", "India - 360001"],
+      details: [
+        "Uma Technofab",
+        " Survey No.2235, Opp. Parshwa Industrial Park, Vill: Rajpur, Ta: kadi,",
+        "Gujarat -382715",
+      ],
     },
     {
       icon: FiPhone,
       title: "Call Us",
-      details: ["+91 98765 43210", "+91 98765 43211"],
+      details: ["+91 8735933517"],
     },
     {
       icon: FiMail,
       title: "Email Us",
-      details: ["hello@umapapad.com", "orders@umapapad.com"],
+      details: ["umafoods123@gmail.com"],
     },
     {
       icon: FiClock,
@@ -287,10 +289,10 @@ const ContactPage = () => {
                             : "Select a subject"}
                         </option>
                         {subjects?.map?.((subject) => (
-  <option key={subject.id} value={subject.id}>
-    {subject.name}
-  </option>
-))}
+                          <option key={subject.id} value={subject.id}>
+                            {subject.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <div>
@@ -356,25 +358,33 @@ const ContactPage = () => {
                 >
                   <FiMinus size={18} />
                 </button>
-                
               </div>
 
               <div className="absolute bottom-5 left-5 right-5 md:bottom-6 md:left-6 md:right-6">
                 <div className="flex items-center gap-3 rounded-2xl bg-white/95 p-4 shadow-2xl backdrop-blur-md">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-saffron-400 to-saffron-600 text-white shadow-lg shadow-saffron-500/20">
-                    <FiMapPin size={16} />
-                  </div>
+                  <a
+                    href="https://maps.app.goo.gl/B7qUuC6HkLE1gad86?g_st=iw"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-start gap-4 rounded-2xl p-2 transition-all duration-200 hover:bg-neutral-50"
+                  >
+                    {/* LEFT SIDE: Map Icon */}
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-saffron-400 to-saffron-600 text-white shadow-lg shadow-saffron-500/20 group-hover:scale-105 transition-transform duration-200">
+                      <FiMapPin size={18} />
+                    </div>
 
-                  <div>
-                    <h4 className="mb-0.5 font-display text-base font-bold text-neutral-900">
-                      Uma Papad Factory
-                    </h4>
-
-                    <p className="font-body text-xs leading-relaxed text-neutral-500">
-                      Industrial Area, Gujarat, India
-                      <br />A product of Uma Technofab
-                    </p>
-                  </div>
+                    {/* RIGHT SIDE: Entire Text Block */}
+                    <div className="space-y-1">
+                      <h4 className="font-display text-base font-bold text-neutral-900 group-hover:text-saffron-600 transition-colors duration-150">
+                        Uma Papad Factory
+                      </h4>
+                      <p className="font-body text-xs leading-relaxed text-neutral-500">
+                        Survey No.2235, Opp. Parshwa Industrial Park, Vill:
+                        Rajpur, Ta: kadi, <br />
+                        Gujarat - 382715
+                      </p>
+                    </div>
+                  </a>
                 </div>
               </div>
             </div>
