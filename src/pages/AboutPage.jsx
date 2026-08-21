@@ -89,7 +89,7 @@ const AboutPage = () => {
                 methods that make our papads special. Each one is still handcrafted, sun-dried, and packed with love.
               </p>
               <p className="type-copy-lg text-neutral-500">
-                As a proud product of Uma Technofab, we combine decades of manufacturing expertise with artisanal food
+                As a proud product of Uma Foods & Snacks, we combine decades of manufacturing expertise with artisanal food
                 craftsmanship to deliver the highest quality papad to your table.
               </p>
             </motion.div>

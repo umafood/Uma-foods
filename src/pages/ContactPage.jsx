@@ -29,7 +29,7 @@ const ContactPage = () => {
   const [mapZoom, setMapZoom] = useState(13);
 
   const factoryAddress =
-    "Uma Technofab, Survey No.2235, Opp. Parshwa Industrial Park, Vill: Rajpur, Ta: kadi, Gujarat -382715";
+    "Uma Foods & Snacks, Survey No.2020, Vill: Rajpur, Ta: kadi, Gujarat -382715";
   const mapSrc = `https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3663.558314874587!2d72.42739307532317!3d23.331778978958233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjPCsDE5JzU0LjQiTiA3MsKwMjUnNDcuOSJF!5e0!3m2!1sen!2sin!4v1781170257043!5m2!1sen!2sin?q=${encodeURIComponent(factoryAddress)}&z=${mapZoom}&output=embed`;
 
   const handleZoomIn = () => {
@@ -85,20 +85,20 @@ const ContactPage = () => {
       icon: FiMapPin,
       title: "Visit Us",
       details: [
-        "Uma Technofab",
-        " Survey No.2235, Opp. Parshwa Industrial Park, Vill: Rajpur, Ta: kadi,",
+        "Uma Foods & Snacks",
+        " Survey No.2020, Vill: Rajpur, Ta: kadi,",
         "Gujarat -382715",
       ],
     },
     {
       icon: FiPhone,
       title: "Call Us",
-      details: ["+91 8735933517"],
+      details: ["+91 8460005157"],
     },
     {
       icon: FiMail,
       title: "Email Us",
-      details: ["umafoods123@gmail.com"],
+      details: ["umafoodandsnacks@gmail.com"],
     },
     {
       icon: FiClock,
@@ -332,7 +332,7 @@ const ContactPage = () => {
 
             <div className="relative min-h-64 min-w-0 overflow-hidden bg-neutral-100 md:min-h-80 lg:flex-[0.9]">
               <iframe
-                title="Uma Technofab Location"
+                title="Uma Foods & Snacks Location"
                 src={mapSrc}
                 className="absolute left-0 -top-50 w-full h-[calc(100%+100px)] border-0"
                 loading="lazy"
@@ -379,7 +379,7 @@ const ContactPage = () => {
                         Uma Papad Factory
                       </h4>
                       <p className="font-body text-xs leading-relaxed text-neutral-500">
-                        Survey No.2235, Opp. Parshwa Industrial Park, Vill:
+                        Survey No.2020, Vill:
                         Rajpur, Ta: kadi, <br />
                         Gujarat - 382715
                       </p>

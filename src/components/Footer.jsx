@@ -135,7 +135,7 @@ const Footer = () => {
                       rel="noopener noreferrer"
                       className="font-body text-sm leading-relaxed text-neutral-300 hover:text-saffron-400 hover:underline transition-colors duration-200"
                     >
-                      Survey No.2235, Opp. Parshwa Industrial Park, Vill:
+                      Survey No.2020, Vill:
                       Rajpur, Ta: kadi, <br />
                       Gujarat -382715
                     </a>
@@ -143,7 +143,7 @@ const Footer = () => {
                   <li className="flex items-center gap-2">
                     <FiPhone className="shrink-0 text-saffron-500" size={13} />
                     <span className="font-body text-sm text-neutral-300">
-                      +91 8735933517
+                      +91 8460005157
                     </span>
                   </li>
                   <li className="flex items-center gap-2">
@@ -152,7 +152,7 @@ const Footer = () => {
                       href="mailto:hello@umapapad.com"
                       className="font-body text-sm text-neutral-300 transition-colors hover:text-saffron-200"
                     >
-                      umafoods123@gmail.com
+                      umafoodandsnacks@gmail.com
                     </a>
                   </li>
                 </ul>
@@ -163,7 +163,7 @@ const Footer = () => {
           <div className="mt-6 flex flex-col justify-between gap-2.5 border-t border-white/8 pt-4 text-center md:flex-row md:items-center md:text-left">
             <p className="font-body text-xs text-neutral-400">
               &copy; {currentYear} Uma Papad. All rights reserved. A product of
-              Uma Technofab.
+              Uma Foods & Snacks.
             </p>
             <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 md:justify-end">
               {[
